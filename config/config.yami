@@ -1,0 +1,6 @@
+database:
+  user: postgres
+  password: mysecretpassword
+  dbname: mydb
+  port: 5432
+  sslmode: disable
