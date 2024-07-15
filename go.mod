@@ -1,4 +1,4 @@
-module example/main
+module github.com/phillipe17macedo/Cadastro-Escola
 
 go 1.22.0
 

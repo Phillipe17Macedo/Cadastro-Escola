@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"./config"
-	"./models"
+	"github.com/phillipe17macedo/Cadastro-Escola/config"
+	"github.com/phillipe17macedo/Cadastro-Escola/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

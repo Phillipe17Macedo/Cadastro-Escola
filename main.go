@@ -2,8 +2,8 @@ package main
 
 import (
   "github.com/gin-gonic/gin"
-  "./config"
-  "./routes"
+	"github.com/phillipe17macedo/Cadastro-Escola/config"
+	"github.com/phillipe17macedo/Cadastro-Escola/routes"
 )
 
 func main() {

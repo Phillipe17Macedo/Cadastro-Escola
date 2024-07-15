@@ -3,8 +3,8 @@ package routes
 import (
   "net/http"
   "github.com/gin-gonic/gin"
-  "./config"
-  "./models"
+	"github.com/phillipe17macedo/Cadastro-Escola/config"
+	"github.com/phillipe17macedo/Cadastro-Escola/models"
 )
 
 func GetTurmas(c *gin.Context) {
