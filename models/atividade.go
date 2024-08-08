@@ -6,4 +6,4 @@ type Atividade struct {
 	TurmaID uint
 	Valor float32
 	Data string
-}
+}			
