@@ -13,10 +13,18 @@ func main() {
 
 	r.Use(cors.Default())
 
+	// Métodos Rota Professor
 	r.GET("/professores", routes.GetProfessores)
 	r.POST("/professores", routes.CreateProfessor)
+
+	// Métodos Rota Turma
 	r.GET("/turmas", routes.GetTurmas)
 	r.POST("/turmas", routes.CreateTurma)
+
+	// Métodos Rota Aluno
+	r.GET("/alunos", routes.GetAlunos)
+	r.POST("/alunos", routes.CreateAluno)
+
 
 	r.Run(":8080")
 }
