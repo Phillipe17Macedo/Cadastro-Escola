@@ -14,14 +14,30 @@ func GetAlunos(c *gin.Context) {
 }
 
 func CreateAluno(c *gin.Context) {
-	var aluno models.Aluno
-	if err := c.ShouldBindJSON(&aluno); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := config.DB.Create(&aluno).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, aluno)
+    var alunoInput struct {
+        Nome       string
+        Matricula  string
+        Turmas     []uint  // Espera uma lista de IDs de turmas
+    }
+
+    if err := c.ShouldBindJSON(&alunoInput); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    var turmas []models.Turma
+    config.DB.Where("id IN ?", alunoInput.Turmas).Find(&turmas)
+
+    aluno := models.Aluno{
+        Nome:      alunoInput.Nome,
+        Matricula: alunoInput.Matricula,
+        Turmas:    turmas,
+    }
+
+    if err := config.DB.Create(&aluno).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, aluno)
 }
