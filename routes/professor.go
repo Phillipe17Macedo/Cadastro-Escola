@@ -14,11 +14,14 @@ func GetProfessores(c *gin.Context) {
 }
 
 func CreateProfessor(c *gin.Context) {
-	var professor models.Professor
-	if err := c.ShouldBindJSON(&professor); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	config.DB.Create(&professor)
-	c.JSON(http.StatusOK, professor)
+    var professor models.Professor
+    if err := c.ShouldBindJSON(&professor); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+    if err := config.DB.Create(&professor).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, professor)
 }
