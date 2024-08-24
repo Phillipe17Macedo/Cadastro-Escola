@@ -1,18 +1,24 @@
 package config
 
 import (
-  "gorm.io/gorm"
-	"gorm.io/driver/postgres"
-  "log"
+    "gorm.io/gorm"
+    "gorm.io/driver/mysql"
+    "log"
+    "your_project/models"
 )
-  
+
 var DB *gorm.DB
 
 func Connect() {
-  dsn := "user=postgres password=mysecretpassword dbname=mydb port=5432 sslmode=disable"
-  var err error
-  DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-  if err != nil {
-    log.Fatal("Failed to connect to database:", err)
-  }
+    // String de conexão com o MySQL
+    dsn := "myuser:mypassword@tcp(127.0.0.1:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
+    
+    var err error
+    DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+    if err != nil {
+        log.Fatal("Failed to connect to database:", err)
+    }
+
+    // AutoMigrate para sincronizar os modelos com o banco de dados
+    DB.AutoMigrate(&models.Professor{}, &models.Turma{}, &models.Aluno{}, &models.Atividade{})
 }
