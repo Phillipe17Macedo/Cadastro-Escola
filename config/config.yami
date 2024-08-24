@@ -1,6 +1,6 @@
 database:
-  user: postgres
-  password: admin
+  user: root
+  password: teodoro10
   dbname: mydb
-  port: 5432
+  port: 3306
   sslmode: disable
