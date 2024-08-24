@@ -4,14 +4,14 @@ import (
     "gorm.io/gorm"
     "gorm.io/driver/mysql"
     "log"
-    "your_project/models"
+    "github.com/phillipe17macedo/Cadastro-Escola/models"
 )
 
 var DB *gorm.DB
 
 func Connect() {
     // String de conexão com o MySQL
-    dsn := "myuser:mypassword@tcp(127.0.0.1:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
+    dsn := "admin:1234@tcp(127.0.0.1:3306)/mydb?charset=utf8mb4&parseTime=True&loc=Local"
     
     var err error
     DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
