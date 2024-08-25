@@ -25,6 +25,9 @@ func main() {
 	r.GET("/alunos", routes.GetAlunos)
 	r.POST("/alunos", routes.CreateAluno)
 
+	// Métodos Rota Atividades
+	r.GET("/atividades", routes.GetAtividades)
+	r.POST("/atividades", routes.CreateAtividade)
 
 	r.Run(":8080")
 }
