@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Professores() {
   const [professores, setProfessores] = useState([]);
-  const [novoProfessor, setNovoProfessor] = useState({ nome: '', email: '', cpf: '' });
+  const [novoProfessor, setNovoProfessor] = useState({
+    nome: "",
+    email: "",
+    cpf: "",
+  });
 
   useEffect(() => {
-    axios.get('http://localhost:8080/professores')
-      .then(response => setProfessores(response.data))
-      .catch(error => console.log(error));
+    axios
+      .get("http://localhost:8080/professores")
+      .then((response) => setProfessores(response.data))
+      .catch((error) => console.log(error));
   }, []);
 
   const handleChange = (e) => {
@@ -17,13 +22,14 @@ function Professores() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitting the form');
-    axios.post('http://localhost:8080/professores', novoProfessor)
-      .then(response => {
+    console.log("Submitting the form");
+    axios
+      .post("http://localhost:8080/professores", novoProfessor)
+      .then((response) => {
         setProfessores([...professores, response.data]);
-        setNovoProfessor({ nome: '', email: '', cpf: '' });
+        setNovoProfessor({ nome: "", email: "", cpf: "" });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -31,9 +37,15 @@ function Professores() {
       <h2 className="my-4">Professores</h2>
 
       <h3 className="mb-3">Cadastrar Novo Professor</h3>
-      <form onSubmit={handleSubmit} className="mb-4" noValidate>
+      <form
+        onSubmit={handleSubmit}
+        className="mb-4 p-4 bg-light rounded shadow-sm"
+      >
+        <h3 className="mb-3">Cadastrar Novo Professor</h3>
         <div className="mb-3">
-          <label htmlFor="nome" className="form-label">Nome</label>
+          <label htmlFor="nome" className="form-label">
+            Nome
+          </label>
           <input
             type="text"
             className="form-control"
@@ -46,7 +58,9 @@ function Professores() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
           <input
             type="email"
             className="form-control"
@@ -59,7 +73,9 @@ function Professores() {
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="cpf" className="form-label">CPF</label>
+          <label htmlFor="cpf" className="form-label">
+            CPF
+          </label>
           <input
             type="text"
             className="form-control"
@@ -71,17 +87,25 @@ function Professores() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">Cadastrar</button>
+        <button type="submit" className="btn btn-success w-100">
+          Cadastrar
+        </button>
       </form>
 
       <h3 className="mb-3">Lista de Professores</h3>
-      <ul className="list-group">
-        {professores.map(professor => (
-          <li key={professor.ID} className="list-group-item">
-            {professor.Nome} - {professor.Email}
-          </li>
+      <div className="row">
+        {professores.map((professor) => (
+          <div key={professor.ID} className="col-md-4">
+            <div className="card mb-4 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">{professor.Nome}</h5>
+                <p className="card-text">Email: {professor.Email}</p>
+                <p className="card-text">CPF: {professor.CPF}</p>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

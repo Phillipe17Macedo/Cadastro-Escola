@@ -39,8 +39,8 @@ function Alunos() {
     <div className="container">
       <h2 className="my-4">Alunos</h2>
 
-      <h3 className="mb-3">Cadastrar Novo Aluno</h3>
-      <form onSubmit={handleSubmit} className="mb-4" noValidate>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded shadow-sm" noValidate>
+        <h3 className="mb-3">Cadastrar Novo Aluno</h3>
         <div className="mb-3">
           <label htmlFor="nome" className="form-label">Nome do Aluno</label>
           <input
@@ -85,17 +85,23 @@ function Alunos() {
             ))}
           </select>
         </div>
-        <button type="submit" className="btn btn-primary">Cadastrar</button>
+        <button type="submit" className="btn btn-success w-100">Cadastrar</button>
       </form>
 
       <h3 className="mb-3">Lista de Alunos</h3>
-      <ul className="list-group">
+      <div className="row">
         {alunos.map(aluno => (
-          <li key={aluno.ID} className="list-group-item">
-            {aluno.Nome} - Matrícula: {aluno.Matricula}
-          </li>
+          <div key={aluno.ID} className="col-md-4">
+            <div className="card mb-4 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">{aluno.Nome}</h5>
+                <p className="card-text">Matrícula: {aluno.Matricula}</p>
+                <p className="card-text">Turmas: {aluno.Turmas.map(t => `${t.Nome} `)}</p>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

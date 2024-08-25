@@ -80,8 +80,8 @@ function Notas() {
         </div>
       )}
 
-      <h3 className="mb-3">Cadastrar Nova Nota</h3>
-      <form onSubmit={handleSubmit} className="mb-4" noValidate>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded shadow-sm" noValidate>
+        <h3 className="mb-3">Cadastrar Nova Nota</h3>
         <div className="mb-3">
           <label htmlFor="turma" className="form-label">
             Turma
@@ -168,20 +168,25 @@ function Notas() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-success w-100">
           Cadastrar
         </button>
       </form>
 
       <h3 className="mb-3">Notas Cadastradas</h3>
-      <ul className="list-group">
+      <div className="row">
         {notas.map((nota) => (
-          <li key={nota.ID} className="list-group-item">
-            Aluno: {nota.Aluno.Nome} - Nota: {nota.Valor} - Atividade:{" "}
-            {nota.Atividade.Nome}
-          </li>
+          <div key={nota.ID} className="col-md-4">
+            <div className="card mb-4 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">Aluno: {nota.Aluno.Nome}</h5>
+                <p className="card-text">Nota: {nota.Valor}</p>
+                <p className="card-text">Atividade: {nota.Atividade.Nome}</p>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

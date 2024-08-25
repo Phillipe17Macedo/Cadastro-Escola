@@ -32,9 +32,9 @@ function Atividades() {
 
     const atividadeData = {
       nome: novaAtividade.nome,
-      valor: parseFloat(novaAtividade.valor), // Converte o valor para float
-      data: novaAtividade.data, // Data no formato "YYYY-MM-DD"
-      turmaID: parseInt(novaAtividade.turmaID, 10), // Converte o ID da turma para número
+      valor: parseFloat(novaAtividade.valor),
+      data: novaAtividade.data,
+      turmaID: parseInt(novaAtividade.turmaID, 10),
     };
 
     axios
@@ -50,8 +50,8 @@ function Atividades() {
     <div className="container">
       <h2 className="my-4">Atividades</h2>
 
-      <h3 className="mb-3">Cadastrar Nova Atividade</h3>
-      <form onSubmit={handleSubmit} className="mb-4" noValidate>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded shadow-sm" noValidate>
+        <h3 className="mb-3">Cadastrar Nova Atividade</h3>
         <div className="mb-3">
           <label htmlFor="nome" className="form-label">
             Nome da Atividade
@@ -119,23 +119,28 @@ function Atividades() {
             ))}
           </select>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-success w-100">
           Cadastrar
         </button>
       </form>
 
       <h3 className="mb-3">Lista de Atividades</h3>
-      <ul className="list-group">
+      <div className="row">
         {atividades.map((atividade) => (
-          <li key={atividade.ID} className="list-group-item">
-            {atividade.Nome} - {atividade.Valor} pontos - {atividade.Data} -
-            Turma:{" "}
-            {atividade.Turma
-              ? `${atividade.Turma.Nome} - ${atividade.Turma.Semestre}/${atividade.Turma.Ano}`
-              : "Sem Turma"}
-          </li>
+          <div key={atividade.ID} className="col-md-4">
+            <div className="card mb-4 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">{atividade.Nome}</h5>
+                <p className="card-text">{atividade.Valor} pontos</p>
+                <p className="card-text">{atividade.Data}</p>
+                <p className="card-text">
+                  Turma: {atividade.Turma ? `${atividade.Turma.Nome} - ${atividade.Turma.Semestre}/${atividade.Turma.Ano}` : "Sem Turma"}
+                </p>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

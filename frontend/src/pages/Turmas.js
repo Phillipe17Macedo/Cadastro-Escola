@@ -21,8 +21,8 @@ function Turmas() {
     const turmaData = {
       nome: novaTurma.nome,
       semestre: novaTurma.semestre,
-      ano: parseInt(novaTurma.ano, 10),  // Enviar como número
-      professorID: parseInt(novaTurma.professorID, 10)  // Também como número
+      ano: parseInt(novaTurma.ano, 10),
+      professorID: parseInt(novaTurma.professorID, 10)
     };
   
     axios.post('http://localhost:8080/turmas', turmaData)
@@ -37,8 +37,8 @@ function Turmas() {
     <div className="container">
       <h2 className="my-4">Turmas</h2>
 
-      <h3 className="mb-3">Cadastrar Nova Turma</h3>
-      <form onSubmit={handleSubmit} className="mb-4" noValidate>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded shadow-sm">
+        <h3 className="mb-3">Cadastrar Nova Turma</h3>
         <div className="mb-3">
           <label htmlFor="nome" className="form-label">Nome da Turma</label>
           <input
@@ -91,17 +91,24 @@ function Turmas() {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">Cadastrar</button>
+        <button type="submit" className="btn btn-success w-100">Cadastrar</button>
       </form>
 
       <h3 className="mb-3">Lista de Turmas</h3>
-      <ul className="list-group">
+      <div className="row">
         {turmas.map(turma => (
-          <li key={turma.ID} className="list-group-item">
-            {turma.Nome} - {turma.Semestre} - {turma.Ano}
-          </li>
+          <div key={turma.ID} className="col-md-4">
+            <div className="card mb-4 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">{turma.Nome}</h5>
+                <p className="card-text">Semestre: {turma.Semestre}</p>
+                <p className="card-text">Ano: {turma.Ano}</p>
+                <p className="card-text">Professor ID: {turma.ProfessorID}</p>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
