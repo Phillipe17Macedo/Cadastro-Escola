@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Professores from './pages/professores';
 import Turmas from './pages/turmas';
 import Alunos from './pages/alunos';
+import Atividades from './pages/atividades';
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
                 <li className="nav-item">
                   <Link className="nav-link" to="/alunos">Alunos</Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/atividades">Atividades</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -35,6 +39,7 @@ function App() {
             <Route path="/professores" element={<Professores />} />
             <Route path="/turmas" element={<Turmas />} />
             <Route path="/alunos" element={<Alunos />} />
+            <Route path="/atividades" element={<Atividades />} />
             <Route path="/" element={<h2>Bem-vindo ao Cadastro-Escola</h2>} />
           </Routes>
         </div>
