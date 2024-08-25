@@ -36,11 +36,12 @@ func CreateAtividade(c *gin.Context) {
 
 	// Verifica se a soma dos valores das atividades da turma não ultrapassa 100 pontos
 	var somaValores float32
-	err = config.DB.Model(&models.Atividade{}).Where("turma_id = ?", atividadeInput.TurmaID).Select("sum(valor)").Scan(&somaValores).Error
+	err = config.DB.Model(&models.Atividade{}).Where("turma_id = ?", atividadeInput.TurmaID).Select("IFNULL(sum(valor), 0)").Scan(&somaValores).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
-	}	
+	}
+
 	if somaValores+atividadeInput.Valor > 100 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "A soma dos valores das atividades ultrapassa 100 pontos"})
 		return
