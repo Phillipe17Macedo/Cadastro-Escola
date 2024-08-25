@@ -1,11 +1,14 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Atividade struct {
-	ID       uint      `gorm:"primaryKey"`
-	Turma    Turma     `gorm:"foreignKey:TurmaID"`
-	TurmaID  uint
-	Valor    float32
-	Data     time.Time `gorm:"type:date"` 
+	ID      uint      `gorm:"primaryKey"`
+	Nome    string    `gorm:"size:100"`
+	Valor   float32   // Valor da atividade (pontuação)
+	Data    time.Time // Data da atividade
+	TurmaID uint      // Chave estrangeira para a turma
+	Turma   Turma     `gorm:"foreignKey:TurmaID"`
 }
