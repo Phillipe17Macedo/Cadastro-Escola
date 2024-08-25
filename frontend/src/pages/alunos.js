@@ -37,9 +37,12 @@ function Alunos() {
 
   return (
     <div className="container">
-      <h2 className="my-4">Alunos</h2>
+      <div className="jumbotron bg-primary text-white p-5 rounded-lg shadow-sm mb-4">
+        <h2 className="display-4">Gerenciamento de Alunos</h2>
+        <p className="lead">Cadastre novos alunos e visualize a lista completa dos alunos cadastrados.</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded shadow-sm" noValidate>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded-lg shadow" noValidate>
         <h3 className="mb-3">Cadastrar Novo Aluno</h3>
         <div className="mb-3">
           <label htmlFor="nome" className="form-label">Nome do Aluno</label>
@@ -88,15 +91,15 @@ function Alunos() {
         <button type="submit" className="btn btn-success w-100">Cadastrar</button>
       </form>
 
-      <h3 className="mb-3">Lista de Alunos</h3>
+      <h3 className="mb-4">Lista de Alunos</h3>
       <div className="row">
         {alunos.map(aluno => (
           <div key={aluno.ID} className="col-md-4">
-            <div className="card mb-4 shadow-sm">
+            <div className="card mb-4 border-0 shadow">
               <div className="card-body">
-                <h5 className="card-title">{aluno.Nome}</h5>
-                <p className="card-text">Matrícula: {aluno.Matricula}</p>
-                <p className="card-text">Turmas: {aluno.Turmas.map(t => `${t.Nome} `)}</p>
+                <h5 className="card-title text-primary">{aluno.Nome}</h5>
+                <p className="card-text"><strong>Matrícula:</strong> {aluno.Matricula}</p>
+                <p className="card-text"><strong>Turmas:</strong> {aluno.Turmas.map(t => `${t.Nome} `).join(', ')}</p>
               </div>
             </div>
           </div>

@@ -48,9 +48,12 @@ function Atividades() {
 
   return (
     <div className="container">
-      <h2 className="my-4">Atividades</h2>
+      <div className="jumbotron bg-primary text-white p-5 rounded-lg shadow-sm mb-4">
+        <h2 className="display-4">Gerenciamento de Atividades</h2>
+        <p className="lead">Cadastre novas atividades e visualize a lista completa das atividades cadastradas.</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded shadow-sm" noValidate>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded-lg shadow" noValidate>
         <h3 className="mb-3">Cadastrar Nova Atividade</h3>
         <div className="mb-3">
           <label htmlFor="nome" className="form-label">
@@ -128,13 +131,13 @@ function Atividades() {
       <div className="row">
         {atividades.map((atividade) => (
           <div key={atividade.ID} className="col-md-4">
-            <div className="card mb-4 shadow-sm">
+            <div className="card mb-4 border-0 shadow">
               <div className="card-body">
-                <h5 className="card-title">{atividade.Nome}</h5>
-                <p className="card-text">{atividade.Valor} pontos</p>
-                <p className="card-text">{atividade.Data}</p>
+                <h5 className="card-title text-primary">{atividade.Nome}</h5>
+                <p className="card-text"><strong>Valor:</strong> {atividade.Valor} pontos</p>
+                <p className="card-text"><strong>Data:</strong> {atividade.Data}</p>
                 <p className="card-text">
-                  Turma: {atividade.Turma ? `${atividade.Turma.Nome} - ${atividade.Turma.Semestre}/${atividade.Turma.Ano}` : "Sem Turma"}
+                  <strong>Turma:</strong> {atividade.Turma ? `${atividade.Turma.Nome} - ${atividade.Turma.Semestre}/${atividade.Turma.Ano}` : "Sem Turma"}
                 </p>
               </div>
             </div>

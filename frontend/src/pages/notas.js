@@ -16,9 +16,12 @@ function Notas() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/turmas")
-      .then((response) => setTurmas(response.data))
-      .catch((error) => console.log(error));
+      .get("http://localhost:8080/notas")
+      .then((response) => {
+        console.log("Dados das notas recebidos:", response.data); 
+        setNotas(response.data);
+      })
+      .catch((error) => console.log("Erro ao buscar notas:", error));
   }, []);
 
   const handleTurmaChange = (e) => {
@@ -40,13 +43,13 @@ function Notas() {
     const { name, value } = e.target;
 
     if (name === 'valor') {
-        setNotaInput({ ...notaInput, [name]: parseFloat(value) }); // Converte para float
+        setNotaInput({ ...notaInput, [name]: parseFloat(value) });
     } else if (name === 'alunoID' || name === 'atividadeID') {
-        setNotaInput({ ...notaInput, [name]: parseInt(value, 10) }); // Converte para inteiro (uint)
+        setNotaInput({ ...notaInput, [name]: parseInt(value, 10) });
     } else {
         setNotaInput({ ...notaInput, [name]: value });
     }
-};
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,7 +75,10 @@ function Notas() {
 
   return (
     <div className="container">
-      <h2 className="my-4">Cadastro de Notas</h2>
+      <div className="jumbotron bg-primary text-white p-5 rounded-lg shadow-sm mb-4">
+        <h2 className="display-4">Cadastro de Notas</h2>
+        <p className="lead">Selecione uma turma, escolha uma atividade e atribua notas aos alunos.</p>
+      </div>
 
       {errorMessage && (
         <div className="alert alert-danger" role="alert">
@@ -80,7 +86,7 @@ function Notas() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded shadow-sm" noValidate>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded-lg shadow" noValidate>
         <h3 className="mb-3">Cadastrar Nova Nota</h3>
         <div className="mb-3">
           <label htmlFor="turma" className="form-label">
@@ -177,11 +183,11 @@ function Notas() {
       <div className="row">
         {notas.map((nota) => (
           <div key={nota.ID} className="col-md-4">
-            <div className="card mb-4 shadow-sm">
+            <div className="card mb-4 shadow-sm border-0">
               <div className="card-body">
-                <h5 className="card-title">Aluno: {nota.Aluno.Nome}</h5>
-                <p className="card-text">Nota: {nota.Valor}</p>
-                <p className="card-text">Atividade: {nota.Atividade.Nome}</p>
+                <h5 className="card-title text-primary">Aluno: {nota.Aluno.Nome}</h5>
+                <p className="card-text"><strong>Nota:</strong> {nota.Valor}</p>
+                <p className="card-text"><strong>Atividade:</strong> {nota.Atividade.Nome}</p>
               </div>
             </div>
           </div>

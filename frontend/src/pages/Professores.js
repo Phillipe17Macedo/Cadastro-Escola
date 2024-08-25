@@ -34,14 +34,13 @@ function Professores() {
 
   return (
     <div className="container">
-      <h2 className="my-4">Professores</h2>
+      <div className="jumbotron bg-primary text-white p-5 rounded-lg shadow-sm mb-4">
+        <h2 className="display-4">Gerenciamento de Professores</h2>
+        <p className="lead">Cadastre novos professores e visualize a lista completa dos docentes.</p>
+      </div>
 
-      <h3 className="mb-3">Cadastrar Novo Professor</h3>
-      <form
-        onSubmit={handleSubmit}
-        className="mb-4 p-4 bg-light rounded shadow-sm"
-      >
-        <h3 className="mb-3">Cadastrar Novo Professor</h3>
+      <h3 className="mb-4">Cadastrar Novo Professor</h3>
+      <form onSubmit={handleSubmit} className="mb-4 p-4 bg-light rounded-lg shadow">
         <div className="mb-3">
           <label htmlFor="nome" className="form-label">
             Nome
@@ -92,15 +91,19 @@ function Professores() {
         </button>
       </form>
 
-      <h3 className="mb-3">Lista de Professores</h3>
+      <h3 className="mb-4">Lista de Professores</h3>
       <div className="row">
         {professores.map((professor) => (
           <div key={professor.ID} className="col-md-4">
-            <div className="card mb-4 shadow-sm">
+            <div className="card mb-4 border-0 shadow">
               <div className="card-body">
-                <h5 className="card-title">{professor.Nome}</h5>
-                <p className="card-text">Email: {professor.Email}</p>
-                <p className="card-text">CPF: {professor.CPF}</p>
+                <h5 className="card-title text-primary">{professor.Nome}</h5>
+                <p className="card-text">
+                  <strong>Email:</strong> {professor.Email}
+                </p>
+                <p className="card-text">
+                  <strong>CPF:</strong> {professor.CPF}
+                </p>
               </div>
             </div>
           </div>
