@@ -4,6 +4,7 @@ import Professores from './pages/professores';
 import Turmas from './pages/turmas';
 import Alunos from './pages/alunos';
 import Atividades from './pages/atividades';
+import Notas from './pages/notas';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
                 <li className="nav-item">
                   <Link className="nav-link" to="/atividades">Atividades</Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/notas">Notas</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -40,6 +44,7 @@ function App() {
             <Route path="/turmas" element={<Turmas />} />
             <Route path="/alunos" element={<Alunos />} />
             <Route path="/atividades" element={<Atividades />} />
+            <Route path="/notas" element={<Notas />} />
             <Route path="/" element={<h2>Bem-vindo ao Cadastro-Escola</h2>} />
           </Routes>
         </div>
