@@ -1,51 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Notas() {
   const [notas, setNotas] = useState([]);
   const [turmas, setTurmas] = useState([]);
   const [atividades, setAtividades] = useState([]);
   const [alunos, setAlunos] = useState([]);
-  const [notaInput, setNotaInput] = useState({ valor: '', alunoID: '', atividadeID: '' });
-  const [selectedTurma, setSelectedTurma] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [notaInput, setNotaInput] = useState({
+    valor: "",
+    alunoID: "",
+    atividadeID: "",
+  });
+  const [selectedTurma, setSelectedTurma] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    axios.get('http://localhost:8080/turmas')
-      .then(response => setTurmas(response.data))
-      .catch(error => console.log(error));
+    axios
+      .get("http://localhost:8080/turmas")
+      .then((response) => setTurmas(response.data))
+      .catch((error) => console.log(error));
   }, []);
 
   const handleTurmaChange = (e) => {
     const turmaID = e.target.value;
     setSelectedTurma(turmaID);
 
-    axios.get(`http://localhost:8080/atividades?turma_id=${turmaID}`)
-      .then(response => setAtividades(response.data))
-      .catch(error => console.log(error));
+    axios
+      .get(`http://localhost:8080/atividades?turma_id=${turmaID}`)
+      .then((response) => setAtividades(response.data))
+      .catch((error) => console.log(error));
 
-    axios.get(`http://localhost:8080/alunos?turma_id=${turmaID}`)
-      .then(response => setAlunos(response.data))
-      .catch(error => console.log(error));
+    axios
+      .get(`http://localhost:8080/alunos?turma_id=${turmaID}`)
+      .then((response) => setAlunos(response.data))
+      .catch((error) => console.log(error));
   };
 
   const handleChange = (e) => {
-    setNotaInput({ ...notaInput, [e.target.name]: e.target.value });
-  };
+    const { name, value } = e.target;
+
+    if (name === 'valor') {
+        setNotaInput({ ...notaInput, [name]: parseFloat(value) }); // Converte para float
+    } else if (name === 'alunoID' || name === 'atividadeID') {
+        setNotaInput({ ...notaInput, [name]: parseInt(value, 10) }); // Converte para inteiro (uint)
+    } else {
+        setNotaInput({ ...notaInput, [name]: value });
+    }
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/notas', notaInput)
-      .then(response => {
+    axios
+      .post("http://localhost:8080/notas", notaInput)
+      .then((response) => {
         setNotas([...notas, response.data]);
-        setNotaInput({ valor: '', alunoID: '', atividadeID: '' });
-        setErrorMessage('');
+        setNotaInput({ valor: "", alunoID: "", atividadeID: "" });
+        setErrorMessage("");
       })
-      .catch(error => {
-        if (error.response && error.response.data && error.response.data.error) {
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
           setErrorMessage(error.response.data.error);
         } else {
-          setErrorMessage('Ocorreu um erro ao cadastrar a nota.');
+          setErrorMessage("Ocorreu um erro ao cadastrar a nota.");
         }
       });
   };
@@ -63,7 +83,9 @@ function Notas() {
       <h3 className="mb-3">Cadastrar Nova Nota</h3>
       <form onSubmit={handleSubmit} className="mb-4" noValidate>
         <div className="mb-3">
-          <label htmlFor="turma" className="form-label">Turma</label>
+          <label htmlFor="turma" className="form-label">
+            Turma
+          </label>
           <select
             className="form-control"
             name="turma"
@@ -72,8 +94,10 @@ function Notas() {
             onChange={handleTurmaChange}
             required
           >
-            <option value="" disabled>Selecione uma Turma</option>
-            {turmas.map(turma => (
+            <option value="" disabled>
+              Selecione uma Turma
+            </option>
+            {turmas.map((turma) => (
               <option key={turma.ID} value={turma.ID}>
                 {turma.Nome} - {turma.Semestre}/{turma.Ano}
               </option>
@@ -82,7 +106,9 @@ function Notas() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="atividadeID" className="form-label">Atividade</label>
+          <label htmlFor="atividadeID" className="form-label">
+            Atividade
+          </label>
           <select
             className="form-control"
             name="atividadeID"
@@ -91,8 +117,10 @@ function Notas() {
             onChange={handleChange}
             required
           >
-            <option value="" disabled>Selecione uma Atividade</option>
-            {atividades.map(atividade => (
+            <option value="" disabled>
+              Selecione uma Atividade
+            </option>
+            {atividades.map((atividade) => (
               <option key={atividade.ID} value={atividade.ID}>
                 {atividade.Nome} - Valor Máximo: {atividade.Valor} pontos
               </option>
@@ -101,7 +129,9 @@ function Notas() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="alunoID" className="form-label">Aluno</label>
+          <label htmlFor="alunoID" className="form-label">
+            Aluno
+          </label>
           <select
             className="form-control"
             name="alunoID"
@@ -110,8 +140,10 @@ function Notas() {
             onChange={handleChange}
             required
           >
-            <option value="" disabled>Selecione um Aluno</option>
-            {alunos.map(aluno => (
+            <option value="" disabled>
+              Selecione um Aluno
+            </option>
+            {alunos.map((aluno) => (
               <option key={aluno.ID} value={aluno.ID}>
                 {aluno.Nome} - Matrícula: {aluno.Matricula}
               </option>
@@ -120,7 +152,9 @@ function Notas() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="valor" className="form-label">Nota</label>
+          <label htmlFor="valor" className="form-label">
+            Nota
+          </label>
           <input
             type="number"
             step="0.01"
@@ -134,14 +168,17 @@ function Notas() {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">Cadastrar</button>
+        <button type="submit" className="btn btn-primary">
+          Cadastrar
+        </button>
       </form>
 
       <h3 className="mb-3">Notas Cadastradas</h3>
       <ul className="list-group">
-        {notas.map(nota => (
+        {notas.map((nota) => (
           <li key={nota.ID} className="list-group-item">
-            Aluno: {nota.Aluno.Nome} - Nota: {nota.Valor} - Atividade: {nota.Atividade.Nome}
+            Aluno: {nota.Aluno.Nome} - Nota: {nota.Valor} - Atividade:{" "}
+            {nota.Atividade.Nome}
           </li>
         ))}
       </ul>
