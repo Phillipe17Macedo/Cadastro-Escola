@@ -21,4 +21,12 @@ cd ~/Cadastro-Escola
  mysql -u root -p
  USE mydb;
  SHOW TABLES;
+
+  sudo lsof -i :8080
+COMMAND      PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+Cadastro- 130524  opc    6u  IPv6 138216      0t0  TCP *:webcache (LISTEN)
+[opc@backend ~]$ ^C
+[opc@backend ~]$ sudo kill -9 130524
+/home/opc/Cadastro-Escola/Cadastro-Escola
+
  
