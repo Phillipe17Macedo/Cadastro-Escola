@@ -5,7 +5,7 @@ database:
   port: 3306
   sslmode: disable
 
-  ip: 168.138.148.174
+  ip: 64.181.160.179
   senha mysql linux: Teodoro10@
 
   user Mysql Linux: root
