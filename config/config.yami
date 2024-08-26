@@ -6,3 +6,7 @@ database:
   sslmode: disable
 
   ip: 152.67.33.253
+  senha mysql linux: Teodoro10@
+
+  user Mysql Linux: admin
+  password: 1234
