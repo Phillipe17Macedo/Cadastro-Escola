@@ -4,3 +4,5 @@ database:
   dbname: mydb
   port: 3306
   sslmode: disable
+
+  ip: 152.67.33.253
