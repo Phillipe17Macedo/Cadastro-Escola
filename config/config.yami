@@ -5,8 +5,20 @@ database:
   port: 3306
   sslmode: disable
 
-  ip: 152.67.33.253
+  ip: 168.138.148.174
   senha mysql linux: Teodoro10@
 
   user Mysql Linux: root
   password: Teodoro10@
+
+ >> comando para iniciar a conexão na máquina via ssh:
+  ssh -i /c/Users/phsto/Downloads/ssh-key-2024-08-26.key opc@168.138.148.174
+
+>>  Ir para o diretório dos arquivos do Back
+cd ~/Cadastro-Escola
+
+ >>  Para entrar no Mysql e ver os bancos:
+ mysql -u root -p
+ USE mydb;
+ SHOW TABLES;
+ 
