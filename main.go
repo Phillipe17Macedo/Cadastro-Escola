@@ -5,13 +5,22 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/phillipe17macedo/Cadastro-Escola/config"
 	"github.com/phillipe17macedo/Cadastro-Escola/routes"
+	"time"
 )
 
 func main() {
 	config.Connect()
 	r := gin.Default()
 
-	r.Use(cors.Default())
+	// Configurando CORS para permitir as origens específicas do frontend
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "https://cadastro-escola-production.up.railway.app"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// Métodos Rota Professor
 	r.GET("/professores", routes.GetProfessores)
