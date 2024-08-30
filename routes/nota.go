@@ -52,3 +52,51 @@ func CreateNota(c *gin.Context) {
 
 	c.JSON(http.StatusOK, nota)
 }
+
+func UpdateNota(c *gin.Context) {
+	var nota models.Nota
+	id := c.Param("id")
+
+	// Tenta encontrar a nota pelo ID
+	if err := config.DB.First(&nota, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Nota não encontrada"})
+		return
+	}
+
+	var notaInput struct {
+		Valor float32 `json:"valor"`
+	}
+
+	if err := c.ShouldBindJSON(&notaInput); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Atualiza apenas o campo 'valor' da nota
+	nota.Valor = notaInput.Valor
+
+	// Salva as alterações
+	if err := config.DB.Save(&nota).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, nota)
+}
+
+func DeleteNota(c *gin.Context) {
+	var nota models.Nota
+	id := c.Param("id")
+
+	if err := config.DB.First(&nota, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Nota não encontrada"})
+		return
+	}
+
+	if err := config.DB.Delete(&nota).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Nota deletada com sucesso"})
+}

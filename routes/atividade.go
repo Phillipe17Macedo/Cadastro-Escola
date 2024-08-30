@@ -61,3 +61,71 @@ func CreateAtividade(c *gin.Context) {
 
 	c.JSON(http.StatusOK, atividade)
 }
+
+func UpdateAtividade(c *gin.Context) {
+	var atividade models.Atividade
+	id := c.Param("id")
+
+	// Tenta encontrar a atividade pelo ID
+	if err := config.DB.First(&atividade, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Atividade not found"})
+		return
+	}
+
+	var atividadeInput struct {
+		Nome    string
+		Valor   *float32
+		Data    *string // Data como string no formato "YYYY-MM-DD"
+		TurmaID *uint
+	}
+
+	if err := c.ShouldBindJSON(&atividadeInput); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Atualiza apenas os campos fornecidos
+	if atividadeInput.Nome != "" {
+		atividade.Nome = atividadeInput.Nome
+	}
+	if atividadeInput.Valor != nil {
+		atividade.Valor = *atividadeInput.Valor
+	}
+	if atividadeInput.Data != nil {
+		data, err := time.ParseInLocation("2006-01-02", *atividadeInput.Data, time.Local)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Data deve estar no formato YYYY-MM-DD"})
+			return
+		}
+		atividade.Data = data
+	}
+	if atividadeInput.TurmaID != nil {
+		atividade.TurmaID = *atividadeInput.TurmaID
+	}
+
+	// Tenta salvar as atualizações na base de dados
+	if err := config.DB.Save(&atividade).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Retorna a atividade atualizada
+	c.JSON(http.StatusOK, atividade)
+}
+
+func DeleteAtividade(c *gin.Context) {
+    var atividade models.Atividade
+    id := c.Param("id")
+
+    if err := config.DB.First(&atividade, id).Error; err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Atividade not found"})
+        return
+    }
+
+    if err := config.DB.Delete(&atividade).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Atividade deleted successfully"})
+}

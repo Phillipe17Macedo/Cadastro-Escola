@@ -12,7 +12,7 @@ database:
   password: Teodoro10@
 
  >> comando para iniciar a conexão na máquina via ssh:
-  ssh -i /c/Users/phsto/Downloads/ssh-key-2024-08-26.key opc@168.138.148.174
+  ssh -i /c/Users/phsto/Downloads/ssh-key-2024-08-26.key opc@64.181.160.179
 
 >>  Ir para o diretório dos arquivos do Back
 cd ~/Cadastro-Escola
