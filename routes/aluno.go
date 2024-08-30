@@ -2,7 +2,7 @@ package routes
 
 import (
 	"net/http"
-
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/phillipe17macedo/Cadastro-Escola/config"
 	"github.com/phillipe17macedo/Cadastro-Escola/models"
@@ -25,6 +25,8 @@ func CreateAluno(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	fmt.Println("Turmas recebidas:", alunoInput.Turmas)
 
 	var turmas []models.Turma
 	config.DB.Where("id IN ?", alunoInput.Turmas).Find(&turmas)
