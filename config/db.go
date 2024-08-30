@@ -38,13 +38,13 @@ var DB *gorm.DB
 
 func Connect() {
 	var err error
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		os.Getenv("root"),
-		os.Getenv("mtaeXhHySpbVBwCoCswKiZAUSwoyacde"),
-		os.Getenv("mysql-zmno.railway.internal"),
-		os.Getenv("3306"),
-		os.Getenv("railway"),
-	)
+    dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+        os.Getenv("root"),
+        os.Getenv("mtaeXhHySpbVBwCoCswKiZAUSwoyacde"),
+        os.Getenv("mysql-zmno.railway.internal"),
+        os.Getenv("3306"),
+        os.Getenv("railway"),
+    )
 
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
