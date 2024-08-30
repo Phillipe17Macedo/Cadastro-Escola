@@ -52,5 +52,5 @@ func main() {
 	r.PUT("/notas/:id", routes.UpdateNota)
 	r.DELETE("/notas/:id", routes.DeleteNota)
 
-	r.Run(":8080")
+	r.Run()
 }
