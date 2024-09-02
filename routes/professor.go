@@ -55,21 +55,27 @@ func DeleteProfessor(c *gin.Context) {
 
     // Verificar se o professor existe
     if err := config.DB.First(&professor, "id = ?", id).Error; err != nil {
-        c.JSON(http.StatusNotFound, gin.H{"error": "Professor not found"})
+        c.JSON(http.StatusNotFound, gin.H{"error": "Professor não encontrado"})
         return
     }
 
-    // Excluir as turmas associadas ao professor
-    if err := config.DB.Where("professor_id = ?", id).Delete(&models.Turma{}).Error; err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete associated turmas"})
+    // Verificar se existem turmas associadas ao professor
+    var turmas []models.Turma
+    if err := config.DB.Where("professor_id = ?", id).Find(&turmas).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao verificar turmas associadas"})
         return
     }
 
-    // Excluir o professor
+    if len(turmas) > 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Não é possível remover o professor porque existem turmas associadas"})
+        return
+    }
+
+    // Excluir o professor, pois não há turmas associadas
     if err := config.DB.Delete(&professor).Error; err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao excluir o professor"})
         return
     }
 
-    c.JSON(http.StatusOK, gin.H{"message": "Professor deleted successfully"})
+    c.JSON(http.StatusOK, gin.H{"message": "Professor excluído com sucesso"})
 }
