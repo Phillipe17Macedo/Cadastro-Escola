@@ -15,73 +15,80 @@ func GetNotas(c *gin.Context) {
 }
 
 func CreateNota(c *gin.Context) {
-	var notaInput struct {
-		Valor       float32
-		AlunoID     uint
-		AtividadeID uint
-	}
+    var notaInput struct {
+        Valor       float32
+        AlunoID     uint
+        AtividadeID uint
+    }
 
-	if err := c.ShouldBindJSON(&notaInput); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+    if err := c.ShouldBindJSON(&notaInput); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-	// Buscar a atividade para validar o valor máximo da nota
-	var atividade models.Atividade
-	if err := config.DB.First(&atividade, notaInput.AtividadeID).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Atividade não encontrada"})
-		return
-	}
+    // Verificar se já existe uma nota para o mesmo aluno e atividade
+    var existingNota models.Nota
+    if err := config.DB.Where("aluno_id = ? AND atividade_id = ?", notaInput.AlunoID, notaInput.AtividadeID).First(&existingNota).Error; err == nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Já existe uma nota para este aluno nesta atividade"})
+        return
+    }
 
-	// Verificar se a nota excede o valor máximo permitido pela atividade
-	if notaInput.Valor > atividade.Valor {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "A nota excede o valor máximo permitido pela atividade"})
-		return
-	}
+    // Buscar a atividade para validar o valor máximo da nota
+    var atividade models.Atividade
+    if err := config.DB.First(&atividade, notaInput.AtividadeID).Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Atividade não encontrada"})
+        return
+    }
 
-	nota := models.Nota{
-		Valor:       notaInput.Valor,
-		AlunoID:     notaInput.AlunoID,
-		AtividadeID: notaInput.AtividadeID,
-	}
+    // Verificar se a nota excede o valor máximo permitido pela atividade
+    if notaInput.Valor > atividade.Valor {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "A nota excede o valor máximo permitido pela atividade"})
+        return
+    }
 
-	if err := config.DB.Create(&nota).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+    nota := models.Nota{
+        Valor:       notaInput.Valor,
+        AlunoID:     notaInput.AlunoID,
+        AtividadeID: notaInput.AtividadeID,
+    }
 
-	c.JSON(http.StatusOK, nota)
+    if err := config.DB.Create(&nota).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, nota)
 }
 
 func UpdateNota(c *gin.Context) {
-	var nota models.Nota
-	id := c.Param("id")
+    var nota models.Nota
+    id := c.Param("id")
 
-	// Tenta encontrar a nota pelo ID
-	if err := config.DB.First(&nota, "id = ?", id).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Nota não encontrada"})
-		return
-	}
+    // Tenta encontrar a nota pelo ID
+    if err := config.DB.First(&nota, "id = ?", id).Error; err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": "Nota não encontrada"})
+        return
+    }
 
-	var notaInput struct {
-		Valor float32 `json:"valor"`
-	}
+    var notaInput struct {
+        Valor float32 `json:"valor"`
+    }
 
-	if err := c.ShouldBindJSON(&notaInput); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+    if err := c.ShouldBindJSON(&notaInput); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
 
-	// Atualiza apenas o campo 'valor' da nota
-	nota.Valor = notaInput.Valor
+    // Atualiza apenas o campo 'valor' da nota
+    nota.Valor = notaInput.Valor
 
-	// Salva as alterações
-	if err := config.DB.Save(&nota).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+    // Salva as alterações
+    if err := config.DB.Save(&nota).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
 
-	c.JSON(http.StatusOK, nota)
+    c.JSON(http.StatusOK, nota)
 }
 
 func DeleteNota(c *gin.Context) {

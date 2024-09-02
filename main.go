@@ -15,7 +15,7 @@ func main() {
 
 	// Configurando CORS para permitir as origens específicas do frontend
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://66d643e79360e2000806aa09--cadastro-escola-frontend.netlify.app", "http://localhost:3000", "https://cadastro-escola-production.up.railway.app"},
+		AllowOrigins:     []string{"https://66d647e1fda262000855be40--cadastro-escola-frontend.netlify.app", "http://localhost:3000", "https://cadastro-escola-production.up.railway.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
